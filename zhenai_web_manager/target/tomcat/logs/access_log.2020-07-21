@@ -1,0 +1,11 @@
+0:0:0:0:0:0:0:1 - - [21/Jul/2020:21:01:01 +0800] "GET / HTTP/1.1" 404 951 http-bio-9101-exec-1 42
+0:0:0:0:0:0:0:1 - - [21/Jul/2020:21:01:01 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-9101-exec-3 1
+0:0:0:0:0:0:0:1 - - [21/Jul/2020:21:01:24 +0800] "GET /brand/findAll.do HTTP/1.1" 200 13195 http-bio-9101-exec-4 5856
+0:0:0:0:0:0:0:1 - - [21/Jul/2020:21:17:19 +0800] "GET /brand/findPage.do?page=1&size=5 HTTP/1.1" 200 417 http-bio-9101-exec-6 132
+0:0:0:0:0:0:0:1 - - [21/Jul/2020:21:17:19 +0800] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-9101-exec-8 1
+0:0:0:0:0:0:0:1 - - [21/Jul/2020:21:30:49 +0800] "POST /brand/findList.do HTTP/1.1" 200 2 http-bio-9101-exec-1 119
+0:0:0:0:0:0:0:1 - - [21/Jul/2020:21:32:14 +0800] "POST /brand/findList.do HTTP/1.1" 200 379 http-bio-9101-exec-2 13
+0:0:0:0:0:0:0:1 - - [21/Jul/2020:21:32:51 +0800] "POST /brand/findList.do HTTP/1.1" 400 968 http-bio-9101-exec-2 12
+0:0:0:0:0:0:0:1 - - [21/Jul/2020:21:33:38 +0800] "POST /brand/findList.do HTTP/1.1" 200 221 http-bio-9101-exec-8 10
+0:0:0:0:0:0:0:1 - - [21/Jul/2020:21:55:04 +0800] "POST /brand/findById.do?id=4986 HTTP/1.1" 405 1047 http-bio-9101-exec-10 5
+0:0:0:0:0:0:0:1 - - [21/Jul/2020:21:55:22 +0800] "GET /brand/findById.do?id=4986 HTTP/1.1" 200 62 http-bio-9101-exec-10 12

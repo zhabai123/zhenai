@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>zhenai_parent</artifactId>
+        <groupId>com.zhenai</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>zhenai_service_goods</artifactId>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <!-- 接口 -->
+        <dependency>
+            <groupId>com.zhenai</groupId>
+            <artifactId>zhenai_interface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- common-service -->
+        <dependency>
+            <groupId>com.zhenai</groupId>
+            <artifactId>zhenai_common_service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 指定端口号 -->
+                    <port>9001</port>
+                    <!-- 请求路径 -->
+                    <path>/</path>
+                </configuration>
+                <version>2.2</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
