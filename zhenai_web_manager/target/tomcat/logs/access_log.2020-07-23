@@ -1,0 +1,10 @@
+0:0:0:0:0:0:0:1 - - [23/Jul/2020:08:44:46 +0800] "GET /brand/findPage.do?page1&size=5 HTTP/1.1" 200 417 http-bio-9101-exec-2 11856
+0:0:0:0:0:0:0:1 - - [23/Jul/2020:08:44:55 +0800] "POST /brand/findPage.do?page1&size=5 HTTP/1.1" 500 4799 http-bio-9101-exec-3 53
+0:0:0:0:0:0:0:1 - - [23/Jul/2020:08:45:25 +0800] "POST /brand/findPage.do?page1&size=2 HTTP/1.1" 500 4799 http-bio-9101-exec-5 7
+0:0:0:0:0:0:0:1 - - [23/Jul/2020:08:45:37 +0800] "POST /brand/findPage.do?page1&size=2 HTTP/1.1" 500 4799 http-bio-9101-exec-7 0
+0:0:0:0:0:0:0:1 - - [23/Jul/2020:08:48:20 +0800] "POST /brand/findPage.do?page=1&size=2 HTTP/1.1" 500 4799 http-bio-9101-exec-2 11374
+0:0:0:0:0:0:0:1 - - [23/Jul/2020:08:51:35 +0800] "POST /brand/findPage.do?page=1&size=2 HTTP/1.1" 200 240 http-bio-9101-exec-2 11821
+0:0:0:0:0:0:0:1 - - [23/Jul/2020:08:51:49 +0800] "POST /brand/findPage.do?page=2&size=2 HTTP/1.1" 200 178 http-bio-9101-exec-3 18
+0:0:0:0:0:0:0:1 - - [23/Jul/2020:08:57:39 +0800] "POST /brand/findById.do?id=4396 HTTP/1.1" 405 1047 http-bio-9101-exec-6 6
+0:0:0:0:0:0:0:1 - - [23/Jul/2020:08:58:00 +0800] "GET /brand/findById.do?id=4396 HTTP/1.1" 200 - http-bio-9101-exec-7 17
+0:0:0:0:0:0:0:1 - - [23/Jul/2020:08:58:15 +0800] "GET /brand/findById.do?id=4986 HTTP/1.1" 200 62 http-bio-9101-exec-8 8
