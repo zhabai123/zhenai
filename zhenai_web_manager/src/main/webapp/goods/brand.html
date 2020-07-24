@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="../css/elementui.css">
+    <style>
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+        }
+        .avatar {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <el-form :inline="true" >
+        <el-form-item label="审批人">
+            <el-input v-model="searchMap.name" placeholder="审批人"></el-input>
+        </el-form-item>
+        <el-form-item label="活动区域">
+            <el-input v-model="searchMap.letter" placeholder="审批人"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="findPage()">查询</el-button>
+        </el-form-item>
+        <el-button type="primary" @click="formVisible=true,pojo={},imageUrl=''">添加</el-button>
+    </el-form>
+    <el-table
+            :data="tableData"
+            border
+            style="width: 100%">
+        <el-table-column
+                type="index"
+                label="序号"
+                width="180">
+        </el-table-column>
+        <el-table-column
+                prop="name"
+                label="品牌"
+                width="180">
+        </el-table-column>
+        <el-table-column
+                prop="letter"
+                label="首字母">
+        </el-table-column>
+        <el-table-column label="图片" width="180">
+            <template slot-scope="scope">
+                <img :src="scope.row.image" width="102" height="36">
+            </template>
+        </el-table-column>
+        <el-table-column label="操作">
+            <template slot-scope="scope">
+                <el-button @click="edit(scope.row.id)" type="text" size="small">修改</el-button>
+                <el-button @click="del(scope.row.id)" type="text" size="small">删除</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-sizes="[10,20,30,40]"
+            :page-size="size"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+    </el-pagination>
+
+    <el-dialog title="编辑" :visible.sync="formVisible">
+        <el-form  label-width="80px">
+            <el-form-item label="品牌名称" >
+                <el-input  v-model="pojo.name" placeholder="品牌名称"></el-input>
+            </el-form-item>
+            <el-form-item label="品牌首字母" >
+                <el-input  v-model="pojo.letter" placeholder="品牌首字母"></el-input>
+            </el-form-item>
+            <el-form-item label="品牌图片" >
+                <!--   <template slot-scope="scope">-->
+                <!--  <el-input  v-model="pojo.image" width="110px" height="40px" placeholder="品牌图片"></el-input>-->
+                <!--  </template>-->
+                <el-upload
+                        class="avatar-uploader"
+                        action="/upload/oss.do?folder=brand"
+                        :show-file-list="false"
+                        :on-success="handleAvatarSuccess"
+                        :before-upload="beforeAvatarUpload">
+                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+            </el-form-item>
+            <el-form-item label="品牌排序" >
+                <el-input  v-model="pojo.seq" placeholder="品牌排序" ></el-input>
+            </el-form-item>
+            <el-button @click="save()">保存</el-button>
+            <el-button @click="formVisible=false">关闭</el-button>
+        </el-form>
+    </el-dialog>
+</div>
+<script src="../js/vue.js"></script>
+<script src="../js/elementui.js"></script>
+<script src="../js/axios.js"></script>
+<script>
+    new Vue({
+        el:'#app',
+        data() {
+            return {
+                tableData: [],
+                currentPage: 1,
+                total: 10,
+                size: 10,
+                searchMap:{},
+                formVisible: false,
+                pojo: {},
+                imageUrl: ''
+            }
+        },
+        created() {
+            this. findPage();
+        },
+        methods: {
+            handleSizeChange(size) {
+                this.size = size;
+                //修改每页显示信息条数时触发
+                this.findPage();
+            },
+            handleCurrentChange() {
+                //翻页时触发
+                this.findPage();
+            },
+            save() {
+                this.pojo.image = this.imageUrl;
+                axios.post(`/brand/${this.pojo.id == null ? 'add' : 'update'}.do`, this.pojo).then(response => {
+                    this.findPage();
+                    this.formVisible = false;
+
+                });
+            },
+            edit(id) {
+                this.formVisible = true;
+                axios.get(`/brand/findById.do?id=${id}`).then(response => {
+                    this.pojo = response.data;
+                    this.imageUrl = this.pojo.image;//回显图片
+                });
+            },
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = file.response;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            },
+            del(id) {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get(`/brand/delete.do?id=${id}`).then(response => {
+                        if (response.data.code == 0) {
+                            this.findPage();
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            })
+                        } else {
+                            this.$message.error(response.data.message);
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+
+            },
+            findPage() {
+                axios.post(`/brand/findPage.do?page=${this.currentPage}&size=${this.size}`, this.searchMap).then(response => {
+                    this.tableData = response.data.rows;
+                    this.total = response.data.total;
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>
