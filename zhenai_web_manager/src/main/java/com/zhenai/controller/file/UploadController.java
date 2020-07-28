@@ -1,4 +1,4 @@
-package com.zhenai.controller.goods;
+package com.zhenai.controller.file;
 
 import com.aliyun.oss.OSSClient;
 import org.springframework.beans.factory.annotation.Autowired;

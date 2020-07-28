@@ -1,2 +1,10 @@
-com\zhenai\controller\goods\UploadController.class
+com\zhenai\controller\goods\SkuController.class
+com\zhenai\controller\goods\SpecController.class
+com\zhenai\controller\goods\ParaController.class
+com\zhenai\controller\goods\SpuController.class
 com\zhenai\controller\goods\BrandController.class
+com\zhenai\controller\goods\AlbumController.class
+com\zhenai\controller\file\UploadController.class
+com\zhenai\controller\goods\TemplateController.class
+com\zhenai\controller\goods\CategoryController.class
+com\zhenai\controller\goods\PrefController.class

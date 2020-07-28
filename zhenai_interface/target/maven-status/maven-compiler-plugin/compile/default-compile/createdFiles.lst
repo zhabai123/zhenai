@@ -1,1 +1,9 @@
+com\zhenai\service\goods\ParaService.class
+com\zhenai\service\goods\SkuService.class
 com\zhenai\service\goods\BrandService.class
+com\zhenai\service\goods\SpecService.class
+com\zhenai\service\goods\CategoryService.class
+com\zhenai\service\goods\AlbumService.class
+com\zhenai\service\goods\SpuService.class
+com\zhenai\service\goods\TemplateService.class
+com\zhenai\service\goods\PrefService.class
