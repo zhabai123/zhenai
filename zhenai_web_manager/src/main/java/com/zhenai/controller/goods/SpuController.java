@@ -3,6 +3,7 @@ package com.zhenai.controller.goods;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zhenai.entity.PageResult;
 import com.zhenai.entity.Result;
+import com.zhenai.goods.Goods;
 import com.zhenai.pojo.goods.Spu;
 import com.zhenai.service.goods.SpuService;
 import org.springframework.web.bind.annotation.*;
@@ -59,5 +60,26 @@ public class SpuController {
         spuService.delete(id);
         return new Result();
     }
-
+    /**
+     * 添加商品
+     */
+    @PostMapping("/save")
+    public Result save(@RequestBody Goods goods){
+        spuService.saveGoods(goods);
+        return new  Result();
+    }
+    /**
+     * 查询商品
+     */
+    @GetMapping("findGoodsById")
+    public Goods findGoodsById(@RequestParam("id") String id){
+        return spuService.findGoodsById(id);
+    }
+    @GetMapping("/audit")
+    public Result audit(@RequestParam("id")String id,
+                        @RequestParam("status")String status,
+                        @RequestParam(name = "message",required = false,defaultValue = "")String message){
+        spuService.audit(id,status,message);
+        return new Result();
+    }
 }

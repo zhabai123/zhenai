@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/beans/spring-cache.xsd">
+
+        <!--雪花算法生成器-->
+        <bean id="idWorker" class="com.zhenai.util.IdWorker">
+            <constructor-arg name="workerId" value="1"/>
+            <constructor-arg name="datacenterId" value="1"/>
+        </bean>
+</beans>

@@ -1,11 +1,13 @@
+com\zhenai\pojo\goods\CategoryBrand.class
+com\zhenai\pojo\goods\Template.class
+com\zhenai\pojo\goods\Spu.class
+com\zhenai\pojo\goods\Sku.class
 com\zhenai\pojo\goods\Album.class
+com\zhenai\goods\Goods.class
 com\zhenai\pojo\goods\Brand.class
 com\zhenai\pojo\goods\Pref.class
 com\zhenai\entity\PageResult.class
 com\zhenai\pojo\goods\Category.class
 com\zhenai\pojo\goods\Para.class
-com\zhenai\pojo\goods\Template.class
 com\zhenai\pojo\goods\Spec.class
-com\zhenai\pojo\goods\Spu.class
 com\zhenai\entity\Result.class
-com\zhenai\pojo\goods\Sku.class

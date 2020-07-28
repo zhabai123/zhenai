@@ -1,4 +1,5 @@
 com\zhenai\service\impl\AlbumServiceImpl.class
+com\zhenai\dao\CategoryBrandMapper.class
 com\zhenai\dao\TemplateMapper.class
 com\zhenai\dao\BrandMapper.class
 com\zhenai\service\impl\CategoryServiceImpl.class

@@ -59,5 +59,4 @@ public class SpecController {
         specService.delete(id);
         return new Result();
     }
-
 }

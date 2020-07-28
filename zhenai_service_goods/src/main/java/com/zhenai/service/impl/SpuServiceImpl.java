@@ -1,22 +1,39 @@
 package com.zhenai.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.zhenai.dao.SpuMapper;
+import com.zhenai.dao.*;
 import com.zhenai.entity.PageResult;
-import com.zhenai.pojo.goods.Spu;
+import com.zhenai.goods.Goods;
+import com.zhenai.pojo.goods.*;
 import com.zhenai.service.goods.SpuService;
+import com.zhenai.util.IdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import sun.dc.pr.PRError;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Service(interfaceClass = SpuService.class)
+@Transactional
 public class SpuServiceImpl implements SpuService {
 
     @Autowired
     private SpuMapper spuMapper;
+    @Autowired
+    private IdWorker idWorker;
+    @Autowired
+    private CategoryMapper categoryMapper;
+    @Autowired
+    private BrandMapper brandMapper;
+    @Autowired
+    private SkuMapper skuMapper;
+    @Autowired
+    private CategoryBrandMapper categoryBrandMapper;
 
     /**
      * 返回全部记录
@@ -93,6 +110,84 @@ public class SpuServiceImpl implements SpuService {
      */
     public void delete(String id) {
         spuMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void saveGoods(Goods goods) {
+        //1.保存一个spu到数据库
+        Spu spu=goods.getSpu();
+        if (spu.getId()==null){
+            //没有id表示做添加操作
+        }else {
+            //有id做修改操作
+        }
+
+        spu.setId(idWorker.nextId()+"");
+        spuMapper.insertSelective(spu);
+        //2.保存多个sku到数据库
+        Date date=new Date();
+        //获取到分类
+        Category category=categoryMapper.selectByPrimaryKey(spu.getCategory3Id());
+        Brand brand = brandMapper.selectByPrimaryKey(spu.getBrandId());
+        List<Sku> skuList=goods.getSkuList();
+        for (Sku sku : skuList) {
+            sku.setId(idWorker.nextId()+"");
+            sku.setSpuId(spu.getId());
+            sku.setCreateTime(date);
+            String name=spu.getName();//sku的name
+            if (sku.getSpec()==null||"".equals(sku.getSpec())){
+                sku.setSpec("{}");
+            }else{
+            Map<String,String> sepcMap = JSON.parseObject(sku.getSpec(), Map.class);
+            for (String value : sepcMap.values()) {
+                name +=""+value;
+                }
+            }
+            sku.setName(name);//sku的name
+            sku.setUpdateTime(date);
+            sku.setCategoryId(spu.getCategory3Id());
+            sku.setCategoryName(category.getName());//分类名称
+            sku.setBrandName(brand.getName());//品牌名称
+            sku.setCommentNum(0);//评论数
+            sku.setSaleNum(0);//销售数量
+            skuMapper.insertSelective(sku);
+        }
+        //保存商品建立的时候建立分类和品牌之间的关系
+        CategoryBrand categoryBrand=new CategoryBrand();
+        categoryBrand.setBrandId(spu.getBrandId());
+        categoryBrand.setCategoryId(spu.getCategory3Id());
+       int count= categoryBrandMapper.selectCount(categoryBrand);
+       if (count==0){
+           //品牌和分类的关系还没有建立
+           categoryBrandMapper.insertSelective(categoryBrand);
+       }
+    }
+
+    @Override
+    public Goods findGoodsById(String id) {
+        Spu spu=spuMapper.selectByPrimaryKey(id);//查询spu对象
+        //sku列表
+        Example example=new Example(Sku.class);
+        Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("spuId",id);
+        List<Sku> skuList=skuMapper.selectByExample(example);
+        //封装
+        Goods goods=new Goods();
+        goods.setSpu(spu);
+        goods.setSkuList(skuList);
+        return goods;
+    }
+
+    @Override
+    public void audit(String id, String status, String message) {
+        Spu spu=new Spu();
+        spu.setId(id);
+        spu.setStatus(status);
+        if ("1".equals(status)){
+            //审核通过了,商品就自动上架
+            spu.setIsMarketable("1");
+        }
+        spuMapper.updateByPrimaryKeySelective(spu);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.zhenai.service.goods;
 import com.zhenai.entity.PageResult;
+import com.zhenai.goods.Goods;
 import com.zhenai.pojo.goods.Spu;
 
 import java.util.*;
@@ -32,4 +33,23 @@ public interface SpuService {
 
     public void delete(String id);
 
+    /**
+     * 保存商品
+     * @param goods
+     */
+    public void saveGoods(Goods goods);
+
+    /**
+     * 根据商品编号查询商品信息
+     * @param id
+     * @return
+     */
+    Goods findGoodsById(String id);
+
+    /**
+     * 审核
+     * @param id
+     * @param status
+     */
+    public void audit(String id,String status,String message);
 }
